@@ -17,6 +17,17 @@ const { ...head } = Astro.props;
     <GoogleFontsOptimizer
       url="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap"
     />
+    <script is:inline type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-JGRZYF891V"
+    ></script>
+    <script is:inline type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-JGRZYF891V");
+    </script>
   </head>
   <body>
     <div class="root container">
