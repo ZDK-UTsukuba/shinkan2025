@@ -1,0 +1,1 @@
+sitemap: https://shinkan-web.zdk.tsukuba.ac.jp/sitemap-index.xml
