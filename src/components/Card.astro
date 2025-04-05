@@ -1,0 +1,106 @@
+---
+import { Image } from "astro:assets";
+import Heart from "./Heart.astro";
+import type { OrganizationCategory, ImageSearchResult, SingleImage } from "../types";
+import { lookupOrganizationCategoryName } from "../utils/organization";
+
+export type Props = {
+  id: number;
+  name: string;
+  category: OrganizationCategory;
+  short_description: string;
+  thumbnail: ImageSearchResult;
+};
+
+const { name, category, short_description, id, thumbnail } = Astro.props;
+
+const thumbnailImage = (() => {
+  return thumbnail
+})();
+---
+
+<article>
+  <a href={`/orgs/${id}`} class="link">
+    <div class="thumbnail">
+      <Image
+        src={thumbnailImage.url}
+        alt={`${name}のサムネイル画像`}
+        width={thumbnailImage.width}
+        height={thumbnailImage.height}
+      />
+    </div>
+    <div class="details">
+      <span class="category">{lookupOrganizationCategoryName(category)}</span>
+      <span class="name">{name}</span>
+      <p class="description">{short_description}</p>
+    </div>
+  </a>
+  <div class="like">
+    <Heart id={id} />
+  </div>
+</article>
+
+<style>
+  article {
+    position: relative;
+    width: 100%;
+  }
+  .link {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .thumbnail {
+    border-radius: 0.75rem 0.25rem;
+    overflow: hidden;
+  }
+  .thumbnail > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    transition: 0.3s all;
+  }
+  article:hover .thumbnail > img {
+    transform: scale(1.15, 1.15);
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .category {
+    /* TODO: change color based on type */
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  .name {
+    width: calc(100% - 2rem);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .description {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .like {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    pointer-events: none;
+  }
+  .like::before {
+    content: "";
+    display: block;
+    padding-top: calc(56.25% + 1.5rem + 17px);
+  }
+</style>

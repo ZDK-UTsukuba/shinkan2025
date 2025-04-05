@@ -1,0 +1,44 @@
+---
+import type { OpenGraphImage } from "../types";
+import { SITE_NAME, DEFAULT_SITE_DESCRIPTION, DEFAULT_OG_IMAGE } from "../consts";
+
+export type Props = {
+  pageName?: string;
+  description?: string;
+  pageType?: "website" | "article";
+  ogImage?: OpenGraphImage;
+};
+
+const {
+  pageName,
+  description = DEFAULT_SITE_DESCRIPTION,
+  pageType = "website",
+  ogImage = DEFAULT_OG_IMAGE,
+} = Astro.props;
+
+const title = pageName ? `${pageName} - ${SITE_NAME}` : SITE_NAME;
+---
+
+<meta charset="utf-8" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta name="viewport" content="width=device-width, maximum-scale=1" />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="generator" content={Astro.generator} />
+<!-- <link rel="sitemap" href="/sitemap-index.xml" /> -->
+
+<meta property="og:type" content={pageType} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:image" content={new URL(ogImage.src, Astro.site)} />
+<meta property="og:image:alt" content={ogImage.alt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@tsukuba_shinkan" />
+<meta name="twitter:creator" content="@until_tsukuba" />

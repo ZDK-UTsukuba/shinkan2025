@@ -1,0 +1,318 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import Layout from "../../layouts/Layout.astro";
+import Heart from "../../components/Heart.astro";
+import fetchApi from "../../lib/strapi";
+import { marked } from "marked";
+import { enumerateContactInfomations } from "../../utils/organization";
+import type { Organization } from "../../types";
+
+import "@splidejs/splide/css";
+import "../../styles/md-content.css";
+
+export async function getStaticPaths() {
+  const organizations = await fetchApi<Organization[]>({
+    endpoint: "organizations?populate=images&populate=tags",
+    wrappedByKey: "data",
+  });
+
+  return organizations.map((org) => ({
+    params: { id: String(org.id) },
+    props: org,
+  }));
+}
+
+type Props = Organization;
+const org = Astro.props;
+const description = marked.parse(org.attributes.description);
+
+const contactInfo = enumerateContactInfomations(org);
+
+const images = org.attributes.images.data
+  ? org.attributes.images.data
+      .map((image) => {
+        const formats = image.attributes.formats;
+        if (formats) {
+          if (formats.large) {
+            return formats.large;
+          } else if (formats.medium) {
+            return formats.medium;
+          }
+        }
+        return { width: image.attributes.width, height: image.attributes.height, url: image.attributes.url };
+      })
+      .filter((image) => image.width && image.height && image.url)
+  : null;
+
+const tags = org.attributes.tags;
+---
+
+<Layout
+  pageName={org.attributes.name}
+  description={org.attributes.short_description}
+  ogImage={{ src: `/og/${org.id}.png`, alt: `${org.attributes.name} - 筑波大学 新歓Web 2024` }}>
+  <article class="container">
+    <a href="/" class="back">一覧へ戻る</a>
+    <div class="title-line">
+      <h1 class="name">{org.attributes.name}</h1>
+      <Heart id={org.id} />
+    </div>
+    {
+      images && (
+        <>
+          <section
+            id="main-carousel"
+            class="splide"
+            aria-label={`${org.attributes.name}の活動写真。メインのスライダー`}>
+            <div class="splide__track">
+              <ul class="splide__list">
+                {images.map((image) => (
+                  <li class="splide__slide">
+                    <Image
+                      src={image.url}
+                      alt={`${org.attributes.name}の活動写真`}
+                      width={image.width}
+                      height={image.height}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+          <section
+            id="thumbnail-carousel"
+            class="splide"
+            aria-label={`サムネイルスライダー。各サムネイルをクリックすると、メインのスライダーが切り替わります`}>
+            <div class="splide__track">
+              <ul class="splide__list">
+                {images.map((image) => (
+                  <li class="splide__slide">
+                    <Image
+                      src={image.url}
+                      alt={`${org.attributes.name}の活動写真`}
+                      width={image.width}
+                      height={image.height}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </>
+      )
+    }
+    <section class="description md-content" set:html={description} />
+    <span class="separator"></span>
+    <section class="activity_date">
+      <h2>活動時間</h2>
+      <p>{org.attributes.activity_date}</p>
+    </section>
+    <section class="activity_location">
+      <h2>活動場所</h2>
+      <p>{org.attributes.activity_location}</p>
+    </section>
+    <section class="contacts">
+      <h2>連絡先・SNS等</h2>
+      <address>
+        <dl>
+          {
+            contactInfo.map((info) => (
+              <div class="info-wrapper">
+                <>
+                  <dt>
+                    <Icon name={info.icon} area-hidden /> {info.displayName}
+                  </dt>
+                  <dd>
+                    <a href={info.link} target="_blank" rel="noopener">
+                      {info.value}
+                    </a>
+                  </dd>
+                </>
+              </div>
+            ))
+          }
+        </dl>
+      </address>
+    </section>
+    <section class="keywords">
+      <h2>キーワード</h2>
+      <ul>
+        {
+          tags &&
+            tags.map((tag) => (
+              <li>
+                <a href={`/?q=${tag.display_string}`}>{tag.display_string}</a>
+              </li>
+            ))
+        }
+      </ul>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .back {
+    display: inline-block;
+    font-size: 1rem;
+    opacity: 0.6;
+    margin-block-end: 1rem;
+  }
+  .back::before {
+    content: "← ";
+  }
+  .title-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block: 1rem;
+  }
+  .name {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  .description {
+    padding-block: 1rem;
+  }
+  .separator {
+    display: block;
+    width: 4rem;
+    height: 3px;
+    border-radius: 1rem;
+    background: black;
+    opacity: 0.3;
+    margin-block: 2.5rem;
+    margin-inline: auto;
+  }
+  section {
+    margin-block: 1.25rem;
+  }
+  section h2 {
+    font-weight: bold;
+    margin-block-end: 0.75rem;
+  }
+  .contacts dl {
+    display: grid;
+    grid-template-rows: auto auto;
+    place-content: center start;
+    gap: 0.35rem 1rem;
+  }
+  .contacts dt {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    grid-column: 1 / 2;
+    font-weight: bold;
+  }
+  .contacts dd {
+    grid-column: 2 / 3;
+  }
+  .contacts dd a {
+    background-color: transparent;
+    color: var(--link);
+    text-decoration: underline;
+    word-break: break-word;
+    transition: all 0.2s;
+  }
+  .contacts dd a:hover {
+    color: var(--link-hover);
+  }
+  .contacts .info-wrapper {
+    display: contents;
+  }
+  .contacts [data-icon] {
+    width: 1.2em;
+    height: 1.2em;
+  }
+  @media screen and (max-width: 670px) {
+    .contacts dt {
+      grid-column: none;
+      padding-block: 0.1rem;
+    }
+    .contacts dd {
+      grid-column: none;
+      padding-block: 0.1rem;
+    }
+    .contacts .info-wrapper {
+      display: block;
+    }
+  }
+  .keywords ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+  .keywords ul li {
+    background-color: transparent;
+    color: var(--link);
+    text-decoration: underline;
+    transition: all 0.2s;
+  }
+  .keywords ul li:hover {
+    color: var(--link-hover);
+  }
+  .keywords ul li::before {
+    content: "#";
+  }
+  .splide {
+    margin-block: initial;
+  }
+  #main-carousel {
+    padding-block: 1rem;
+  }
+  #main-carousel .splide__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #thumbnail-carousel {
+    padding-block-end: 1rem;
+  }
+  #thumbnail-carousel .splide__list {
+    justify-content: center;
+  }
+  #thumbnail-carousel .splide__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .splide__slide {
+    opacity: 0.6;
+  }
+  .splide__slide.is-active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import Splide from "@splidejs/splide";
+
+  const main = new Splide("#main-carousel", {
+    type: "fade",
+    heightRatio: 9 / 16,
+    rewind: true,
+    pagination: false,
+    arrows: true,
+  });
+
+  const thumbnails = new Splide("#thumbnail-carousel", {
+    fixedWidth: 100,
+    fixedHeight: 60,
+    perPage: 4,
+    gap: 10,
+    rewind: true,
+    pagination: false,
+    isNavigation: true,
+    arrows: false,
+    breakpoints: {
+      600: {
+        fixedWidth: 60,
+        fixedHeight: 44,
+      },
+    },
+  });
+  main.sync(thumbnails);
+  main.mount();
+  thumbnails.mount();
+</script>

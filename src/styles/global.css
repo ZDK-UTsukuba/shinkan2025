@@ -1,0 +1,29 @@
+:root {
+  --accent: #bf4d69;
+  --accent-dimmed: #8c384d;
+  --accent-bright: #c5687f;
+
+  --link: #0969da;
+  --link-hover: #053e80;
+}
+
+body {
+  background: #fff;
+  font-family: "Inter", "Noto Sans JP", sans-serif;
+  line-height: 1.5;
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  padding-inline: min(1.25rem, 4.75vw);
+  margin-inline: auto;
+}
+
+@media screen and (max-width: 670px),
+  screen and (max-height: 440px),
+  screen and (max-width: 1250px) and (max-height: 552px) {
+  .pc-space {
+    display: contents;
+  }
+}

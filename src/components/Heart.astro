@@ -1,0 +1,257 @@
+---
+import { Icon } from "astro-icon/components";
+
+export type Props = {
+  id: number;
+};
+
+const { id } = Astro.props;
+---
+
+<button class="heart" aria-label="お気に入りに登録する" aria-pressed="false" data-group-id={id}>
+  <Icon class="like-line" name="ri:heart-3-line" aria-hidden />
+  <Icon class="like-fill" name="ri:heart-3-fill" aria-hidden />
+  <div class="effects" aria-hidden>
+    <span class="bg-circle"></span>
+    <span class="explosion"></span>
+  </div>
+</button>
+
+<style>
+  .heart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.25rem;
+    aspect-ratio: 1/1;
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  .like-line {
+    width: 1.25rem;
+    aspect-ratio: 1/1;
+    color: #aba29d;
+    transition: all 0.15s;
+    display: block;
+  }
+  .like-fill {
+    width: 1.25rem;
+    aspect-ratio: 1/1;
+    color: #f91880;
+    transition: all 0.15s;
+    display: none;
+  }
+  .effects {
+    display: contents;
+  }
+  .bg-circle {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f91880;
+    opacity: 0;
+    width: 2rem;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    z-index: -1;
+    transition: all 0.15s;
+  }
+  .explosion {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: solid 0 #cc8ef5;
+    opacity: 0;
+    width: 1.5rem;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    z-index: -1;
+    transition: all 0.15s;
+  }
+
+  .heart:hover .like-line {
+    color: #f91880;
+    transition: all 0.15s;
+  }
+  .heart:hover .bg-circle {
+    opacity: 0.1;
+    transition: all 0.15s;
+  }
+
+  .heart[aria-pressed="true"] .like-line {
+    display: none;
+  }
+  .heart[aria-pressed="mixed"] .like-line {
+    display: none;
+  }
+  .heart[aria-pressed="true"] .like-fill {
+    display: block;
+  }
+  .heart[aria-pressed="mixed"] .like-fill {
+    display: block;
+    animation: likeAnimation 1000ms forwards;
+  }
+  .heart[aria-pressed="mixed"] .explosion {
+    animation: explosionAnimation 1000ms forwards;
+  }
+
+  @keyframes explosionAnimation {
+    0% {
+      width: 0.0001px;
+      border: solid 0 #dd4688;
+      opacity: 0;
+    }
+    20% {
+      border: solid 0.75rem #cc8ef5;
+      opacity: 1;
+    }
+    40% {
+      width: 1.4rem;
+      border: solid 0px #cc8ef5;
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes likeAnimation {
+    0% {
+      transform: scale(0);
+    }
+    30% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1.2, 1.2);
+    }
+    60% {
+      transform: scale(1, 1) translate(0%, -10%);
+    }
+    65% {
+      transform: scale(1.1, 0.9) translate(0%, 5%);
+    }
+    70% {
+      transform: scale(0.95, 1.05) translate(0%, -3%);
+    }
+    80% {
+      transform: scale(1, 1) translate(0%, 0%);
+    }
+  }
+</style>
+
+<script>
+  const hearts = document.querySelectorAll(".heart")!;
+  const label = document.querySelector("#faves-label");
+  const checkbox = document.querySelector("#faves");
+
+  let favoriteGroups = ((): string[] => {
+    if (typeof localStorage !== "undefined") {
+      const val = localStorage.getItem("favoriteGroups");
+      if (val) {
+        let ret = [];
+        for (let i = 0; i < val.length; i++) {
+          ret.push(
+            ...[
+              ...("0" <= val[i] && val[i] <= "9" ? parseInt(val[i]) : val.charCodeAt(i) - 97 + 10)
+                .toString(2)
+                .padStart(5, "0"),
+            ].reverse()
+          );
+        }
+        return ret;
+      }
+    }
+    return [];
+  })();
+
+  function encodeFavoriteGroups(val: string[]): string {
+    let ret = "";
+    for (let i = 0; i < val.length; i += 5) {
+      const num = parseInt(
+        val
+          .slice(i, i + 5)
+          .reverse()
+          .join(""),
+        2
+      );
+      if (num < 10) {
+        ret += String(num);
+      } else {
+        ret += String.fromCharCode(97 + num - 10);
+      }
+    }
+    return ret;
+  }
+
+  for (const heart of hearts) {
+    const id = parseInt(heart.getAttribute("data-group-id")!);
+    if (id && id < favoriteGroups.length && favoriteGroups[id] === "1") {
+      heart.setAttribute("aria-pressed", "true");
+    }
+
+    heart.addEventListener("click", () => {
+      const status = heart.getAttribute("aria-pressed");
+      const groupId = parseInt(heart.getAttribute("data-group-id")!);
+      let offset = 0;
+
+      if (status === null || status === "false") {
+        heart.setAttribute("aria-pressed", "mixed");
+
+        const timeoutID = setTimeout(() => {
+          heart.setAttribute("aria-pressed", "true");
+          heart.removeAttribute("data-timeout-id");
+        }, 1000);
+
+        while (groupId >= favoriteGroups.length) {
+          favoriteGroups.push(..."00000");
+        }
+
+        favoriteGroups[groupId] = "1";
+        localStorage.setItem("favoriteGroups", encodeFavoriteGroups(favoriteGroups));
+        heart.setAttribute("data-timeout-id", timeoutID.toString());
+        offset = 1;
+      } else {
+        favoriteGroups[groupId] = "0";
+        localStorage.setItem("favoriteGroups", encodeFavoriteGroups(favoriteGroups));
+        heart.setAttribute("aria-pressed", "false");
+
+        const timeoutID = heart.getAttribute("data-timeout-id");
+        if (timeoutID !== null) {
+          clearTimeout(Number(timeoutID));
+          heart.removeAttribute("data-timeout-id");
+        }
+        offset = -1;
+      }
+
+      // TODO: change this algorithm based on the search system
+      if (label && checkbox) {
+        const favoriteGroupCount = (() => {
+          const textContent = label.textContent;
+          if (!textContent || (textContent && textContent.length <= 5)) {
+            let ret = 0;
+            if (typeof localStorage !== "undefined") {
+              const val = localStorage.getItem("favoriteGroups");
+              if (val) {
+                for (let i = 0; i < val.length; i++) {
+                  ret += [
+                    ...("0" <= val[i] && val[i] <= "9" ? parseInt(val[i]) : val.charCodeAt(i) - 97 + 10).toString(2),
+                  ].filter((x) => x === "1").length;
+                }
+              }
+            }
+            return ret;
+          } else {
+            return parseInt(textContent.slice(7, -1)) + offset;
+          }
+        })();
+        label.textContent = `お気に入り (${favoriteGroupCount})`;
+        checkbox.setAttribute("value", encodeFavoriteGroups(favoriteGroups));
+      }
+    });
+  }
+</script>
