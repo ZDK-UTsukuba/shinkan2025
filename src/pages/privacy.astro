@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout pageName="プライバシーポリシー">
+  <article class="container">
+    <h1>プライバシーポリシー</h1>
+    <section>
+      <p>
+        当サイトでは、利用者のアクセス状況の把握のため、Google社のサービスであるGoogle Analyticsを利用しています。
+        これらのGoogle
+        Analyticsを通して収集されたデータは、Google社の利用規約・プライバシーポリシーに基づいて管理されており、利用者はこのサイトを利用することで、Google社、並びにサイト管理者によるデータの処理について、許可を与えたとみなします。
+        なお、こうしたデータは匿名で収集されており、個人を特定するものではありません。
+      </p>
+      <p>Google Analyticsの利用規約及びプライバシーポリシーに関しては以下のサイトをご参照ください。</p>
+      <ul>
+        <li>
+          <a href="https://www.google.com/analytics/terms/jp.html" target="_blank" rel="noopener noreferrer"
+            >Google Analytics 利用規約</a>
+        </li>
+        <li>
+          <a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener noreferrer"
+            >Googleプライバシーポリシー</a>
+        </li>
+      </ul>
+      <p>
+        また、こうしたGoogle Analyticsによる情報収集に関しましては、Google アナリティクス オプトアウト
+        アドオンを導入することで拒否することが可能とされています。適時ご活用ください。
+      </p>
+      <ul>
+        <li>
+          <a href="https://support.google.com/analytics/answer/181881?hl=ja" target="_blank" rel="noopener noreferrer"
+            >Google アナリティクス オプトアウト アドオン</a>
+        </li>
+      </ul>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-block: 1rem 2rem;
+    padding-inline-start: 1ch;
+    border-inline-start: 0.25em solid var(--accent);
+  }
+  section {
+    margin-block-end: 2rem;
+  }
+  p {
+    margin-block-end: 1rem;
+    line-height: 1.8;
+  }
+  ul {
+    margin-block: 1rem 2rem;
+    padding-inline-start: 2em;
+  }
+  li {
+    margin-block-end: 0.5rem;
+  }
+  a {
+    color: var(--link);
+    text-decoration: underline;
+  }
+  a:hover {
+    color: var(--link-hover);
+  }
+</style>
