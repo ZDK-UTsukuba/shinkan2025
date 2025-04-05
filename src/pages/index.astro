@@ -1,0 +1,64 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Search from "../components/Search.astro";
+import Card from "../components/Card.astro";
+import search from "../lib/search";
+import RandXor from "../utils/randxor";
+
+import type { OrganizationCategory, OrganizationSearchResult } from "../types";
+
+export const prerender = false;
+
+const query = Astro.url.searchParams.get("q") || "";
+const categories = Astro.url.searchParams.getAll("c[]") as OrganizationCategory[];
+const faves = Astro.url.searchParams.get("f");
+
+const orgs = await search<OrganizationSearchResult[]>(query, categories, faves);
+
+if (query === "") {
+  const today = new Date(Date.now() + (new Date().getTimezoneOffset() + 540) * 60 * 1000);
+  const seed =
+    today.getFullYear() * today.getMonth() +
+    today.getDate() * (today.getHours() * 100 + today.getMinutes() > 1200 ? 7 : 13);
+  const random = new RandXor(seed);
+
+  orgs.sort(() => random.next() - random.next());
+}
+---
+
+<Layout>
+  <Search text={query} categories={categories} faves={faves} />
+  <div class="container">
+    <section class:list={[{ notfound: orgs.length === 0 }]}>
+      {
+        orgs.length > 0 ? (
+          orgs.map((org) => (
+            <Card
+              id={org.id}
+              name={org.name}
+              category={org.type}
+              short_description={org.short_description}
+              thumbnail={org.thumbnail}
+            />
+          ))
+        ) : (
+          <p>該当する団体が見つかりませんでした</p>
+        )
+      }
+    </section>
+  </div>
+</Layout>
+
+<style>
+  section:not(.notfound) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .notfound {
+    display: flex;
+    justify-content: center;
+    margin-block-start: 3rem;
+    opacity: 0.8;
+  }
+</style>

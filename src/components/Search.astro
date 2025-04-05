@@ -1,0 +1,179 @@
+---
+import { CATEGORY_LIST } from "../consts";
+import type { OrganizationCategory } from "../types";
+import { lookupOrganizationCategoryName } from "../utils/organization";
+
+export type Props = {
+  text?: string | null;
+  categories: OrganizationCategory[];
+  faves?: string | null;
+};
+
+const { text, categories, faves } = Astro.props;
+
+const counts: any = process.env.CATEGORY_COUNTS ?? [];
+---
+
+<form action="/" class="search container">
+  <span class="limit"></span>
+  <fieldset class="keyword">
+    <input type="text" name="q" size="10" placeholder="団体名・キーワードでフィルタ" value={text} />
+    <input type="submit" value="検索" />
+  </fieldset>
+  <fieldset class="filter">
+    {
+      CATEGORY_LIST.map((category) => (
+        <label for={category}>
+          <input
+            type="checkbox"
+            id={category}
+            value={category}
+            name="c[]"
+            checked={categories?.length === 0 || categories.includes(category)}
+          />
+          <span>{`${lookupOrganizationCategoryName(category)} (${counts[category]})`}</span>
+        </label>
+      ))
+    }
+    <label for="faves">
+      <input type="checkbox" id="faves" name="f" value="0" checked={faves} />
+      <span id="faves-label">お気に入り</span>
+    </label>
+  </fieldset>
+</form>
+
+<style>
+  .search {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-block-end: 2rem;
+  }
+  .search .limit {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: transparent;
+  }
+  .keyword {
+    width: 100%;
+    font-size: 0.875rem;
+    display: flex;
+  }
+  input[type="text"] {
+    display: flex;
+    height: 2rem;
+    padding: 0.5rem;
+    align-items: center;
+    border-radius: 0.75rem 0rem 0rem 0.25rem;
+    border: 1px solid #f3e9e3;
+    background: rgba(243, 233, 227, 0.5);
+    flex: 1 0 0;
+    flex-grow: 1;
+  }
+  input[type="submit"] {
+    display: flex;
+    color: #fff;
+    width: 5rem;
+    height: 2rem;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0rem 0.25rem 0.75rem 0rem;
+    border: 1px solid var(--accent);
+    flex-shrink: 0;
+    background: var(--accent-bright);
+    line-height: 1;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  input[type="submit"]:hover {
+    background: var(--accent);
+  }
+  .filter {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: normal;
+  }
+  input[type="checkbox"] {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 0.125rem;
+    background: #f3e9e3;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked {
+    background: var(--accent);
+  }
+  @media screen and (max-width: 670px), screen and (max-height: 440px) {
+    .search {
+      position: sticky;
+      padding-block: 1rem;
+      top: 0;
+      z-index: 300;
+      background: #fff;
+      margin-block-end: 1rem;
+    }
+    .fixed {
+      box-shadow: #0000001a 0 1px 4px;
+    }
+  }
+</style>
+
+<script>
+  const search = document.querySelector(".search")!;
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        search.classList.remove("fixed");
+      } else {
+        search.classList.add("fixed");
+      }
+    }
+  });
+
+  observer.observe(document.querySelector(".search .limit")!);
+
+  // TODO: change this algorithm based on the search system
+  const favoriteGroupCount = (() => {
+    let ret = 0;
+    if (typeof localStorage !== "undefined") {
+      const val = localStorage.getItem("favoriteGroups");
+      if (val) {
+        for (let i = 0; i < val.length; i++) {
+          ret += [
+            ...("0" <= val[i] && val[i] <= "9" ? parseInt(val[i]) : val.charCodeAt(i) - 97 + 10).toString(2),
+          ].filter((x) => x === "1").length;
+        }
+      }
+    }
+    return ret;
+  })();
+
+  const label = document.querySelector("#faves-label")!;
+  label.textContent = `お気に入り (${favoriteGroupCount})`;
+
+  if (typeof localStorage !== "undefined") {
+    const val = localStorage.getItem("favoriteGroups");
+    if (val) {
+      const checkbox = document.querySelector("#faves")!;
+      checkbox.setAttribute("value", val);
+    }
+  }
+</script>

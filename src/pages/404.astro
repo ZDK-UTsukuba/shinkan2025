@@ -1,0 +1,68 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout pageName="お探しのページは見つかりませんでした">
+  <div class="container pc-space">
+    <hgroup>
+      <div class="text-404">
+        <span>4</span>
+        <Image src="/favicon.svg" alt="0" aria-label="新歓祭のアイコン、404の0を表している" width="100" height="100" />
+        <span>4</span>
+      </div>
+      <p>NOT FOUND</p>
+      <h1>お探しのページは見つかりませんでした</h1>
+    </hgroup>
+    <div class="go-top">
+      <a href="/">トップへ戻る</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  hgroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block-start: 2rem;
+  }
+  .text-404 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(35vw, 10rem);
+    color: #d74d74;
+    line-height: 1;
+  }
+  .text-404 img {
+    display: inline-block;
+    width: min(33vw, 9rem);
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+  hgroup p {
+    color: #d74d74;
+    font-weight: bold;
+    font-size: min(3.5vw, 1.2rem);
+  }
+  h1 {
+    color: #d74d74;
+    font-size: min(5vw, 1.3em);
+    font-weight: bold;
+    padding-block: 1.5rem;
+  }
+  .go-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(5vw, 1rem);
+    padding-block-start: 2rem;
+  }
+  .go-top a {
+    transition: all 0.2s;
+  }
+  .go-top a:hover {
+    color: var(--accent);
+  }
+</style>

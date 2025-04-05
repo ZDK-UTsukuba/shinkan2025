@@ -1,0 +1,6 @@
+.cache
+.github
+.husky
+node_modules
+public
+dist

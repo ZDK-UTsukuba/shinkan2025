@@ -1,0 +1,169 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import type { HeaderLink } from "../types";
+
+const Links: HeaderLink[] = [
+  {
+    href: "/",
+    text: "サークルを探す",
+    icon: "ri:search-line",
+  },
+  {
+    href: "/about",
+    text: "新歓祭について",
+    icon: "ri:question-line",
+  },
+  // {
+  //   href: "/faq",
+  //   text: "よくある質問",
+  // },
+];
+---
+
+<header role="banner">
+  <div class="side-bar">
+    <div class="menu">
+      <a href="/" class="logo">
+        <Image src="/logo.svg" alt="新歓祭のロゴ" width="60" height="188" class="logo-vertical" />
+        <Image src="/logo_horizontal.svg" alt="新歓祭のロゴ" width="150.4" height="48" class="logo-horizontal" />
+      </a>
+      <nav>
+        <ul>
+          {
+            Links.map((link) => {
+              const isCurrent = Astro.url.pathname.replace(/(?<!^)\/$/, "") === link.href;
+              return (
+                <li class:list={[{ current: isCurrent }]}>
+                  <a href={link.href} aria-current={isCurrent ? "page" : "false"}>
+                    <Icon name={link.icon} area-hidden />
+                    {link.text}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+    </div>
+    <aside>
+      筑波大学の新入生の皆さん、ご入学おめでとうございます。本サイトでは、新歓祭に関してはもちろん、新歓活動を行う大学公認団体についての情報を提供しています。本サイトは、大学公認団体の新歓活動を取りまとめる「新入生歓迎委員会」および「全学学類・専門学群・総合学域群代表者会議」によって共同で運営されております。
+    </aside>
+  </div>
+</header>
+
+<style>
+  header {
+    width: 185px;
+  }
+  .side-bar {
+    min-width: 185px;
+    position: fixed;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row-reverse;
+    gap: 2rem;
+  }
+  aside {
+    writing-mode: vertical-rl;
+    max-height: min(37.5rem, calc(100dvh - 5rem));
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 140%;
+  }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-weight: 700;
+  }
+  .logo {
+    display: block;
+  }
+  .logo-vertical {
+    display: block;
+  }
+  .logo-horizontal {
+    display: none;
+  }
+  nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    writing-mode: vertical-rl;
+    align-items: center;
+    gap: 1rem;
+  }
+  @media screen and (max-height: 560px) {
+    nav {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  ul {
+    display: contents;
+  }
+  li > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+    transition: all 0.2s;
+  }
+  li > a:hover {
+    color: var(--accent-dimmed);
+  }
+  .current {
+    color: var(--accent);
+  }
+  [data-icon] {
+    width: 1em;
+    height: 1em;
+  }
+  @media screen and (max-width: 670px),
+    screen and (max-height: 440px),
+    screen and (max-width: 1250px) and (max-height: 552px) {
+    header {
+      width: 100%;
+      padding-block: 1.25rem;
+      max-width: 1120px;
+      padding-inline: min(1.25rem, 4.75vw);
+      margin-inline: auto;
+    }
+    .side-bar {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    aside {
+      writing-mode: initial;
+      max-height: initial;
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: 140%;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-weight: 700;
+    }
+    .logo {
+      width: fit-content;
+    }
+    .logo-vertical {
+      display: none;
+    }
+    .logo-horizontal {
+      display: block;
+    }
+    nav {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      writing-mode: initial;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+</style>
