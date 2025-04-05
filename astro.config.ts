@@ -5,7 +5,6 @@ import cloudflare from "@astrojs/cloudflare";
 import search from "./src/lib/search";
 import { CATEGORY_LIST } from "./src/consts";
 import * as dotenv from "dotenv";
-import partytown from "@astrojs/partytown";
 
 dotenv.config();
 const siteUrl = process.env.CF_PAGES_URL ?? "https://shinkan-web.zdk.tsukuba.ac.jp";
@@ -49,11 +48,6 @@ export default defineConfig({
         ],
         jam: ["line"],
         "material-symbols": ["mail-outline"],
-      },
-    }),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
       },
     }),
   ],
