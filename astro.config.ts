@@ -22,26 +22,36 @@ try {
 } catch (error) {
   console.error("組織カウントの取得中にエラーが発生しました:", error);
   // すべてのカテゴリーにデフォルト値を設定
-  CATEGORY_LIST.forEach(category => {
+  CATEGORY_LIST.forEach((category) => {
     count[category] = 0;
   });
 }
-
 
 // https://astro.build/config
 export default defineConfig({
   site: siteUrl,
   output: "hybrid",
-  integrations: [icon({
-    include: {
-      mdi: ["web"],
-      ri: ["search-line", "question-line", "heart-3-line", "heart-3-fill", "twitter-x-fill", "instagram-line", "shield-line"],
-      jam: ["line"],
-      "material-symbols": ["mail-outline"]
-    }
-  }), sitemap()],
+  integrations: [
+    icon({
+      include: {
+        mdi: ["web"],
+        ri: [
+          "search-line",
+          "question-line",
+          "heart-3-line",
+          "heart-3-fill",
+          "twitter-x-fill",
+          "instagram-line",
+          "shield-line",
+        ],
+        jam: ["line"],
+        "material-symbols": ["mail-outline"],
+      },
+    }),
+    sitemap(),
+  ],
   image: {
-    service: passthroughImageService()
+    service: passthroughImageService(),
   },
   adapter: cloudflare(),
   vite: {
@@ -50,7 +60,7 @@ export default defineConfig({
       "process.env.STRAPI_URL": JSON.stringify(process.env.STRAPI_URL),
       "process.env.MEILISEARCH_HOST": JSON.stringify(process.env.MEILISEARCH_HOST),
       "process.env.MEILISEARCH_API_KEY": JSON.stringify(process.env.MEILISEARCH_API_KEY),
-      "process.env.CATEGORY_COUNTS": JSON.stringify(count)
-    }
-  }
+      "process.env.CATEGORY_COUNTS": JSON.stringify(count),
+    },
+  },
 });
