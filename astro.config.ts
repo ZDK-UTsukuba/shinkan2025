@@ -37,7 +37,15 @@ export default defineConfig({
     icon({
       include: {
         mdi: ["web"],
-        ri: ["search-line", "question-line", "heart-3-line", "heart-3-fill", "twitter-x-fill", "instagram-line"],
+        ri: [
+          "search-line",
+          "question-line",
+          "heart-3-line",
+          "heart-3-fill",
+          "twitter-x-fill",
+          "instagram-line",
+          "shield-line",
+        ],
         jam: ["line"],
         "material-symbols": ["mail-outline"],
       },
