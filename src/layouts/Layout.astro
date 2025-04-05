@@ -17,13 +17,12 @@ const { ...head } = Astro.props;
     <GoogleFontsOptimizer
       url="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap"
     />
-
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGRZYF891V"></script>
-    <script>
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      function gtag(...args: any[]) {
-        (window as any).dataLayer.push(args);
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGRZYF891V" is:inline data-astro-rerun></script>
+    <script is:inline data-astro-rerun>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
       gtag("js", new Date());
       gtag("config", "G-JGRZYF891V");
