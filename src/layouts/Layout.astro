@@ -17,15 +17,14 @@ const { ...head } = Astro.props;
     <GoogleFontsOptimizer
       url="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap"
     />
-    <script is:inline type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-JGRZYF891V"
-    ></script>
-    <script is:inline type="text/partytown">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGRZYF891V" is:inline data-astro-rerun></script>
+    <script is:inline data-astro-rerun>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-JGRZYF891V");
     </script>
   </head>
