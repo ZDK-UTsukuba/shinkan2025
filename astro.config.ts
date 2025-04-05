@@ -36,7 +36,7 @@ export default defineConfig({
   integrations: [
     icon({
       include: {
-        mdi: ["web"],
+        mdi: ["web", "email-outline"],
         ri: [
           "search-line",
           "question-line",
