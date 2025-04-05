@@ -7,7 +7,8 @@ import { CATEGORY_LIST } from "./src/consts";
 import * as dotenv from "dotenv";
 import sitemap from "@astrojs/sitemap";
 dotenv.config();
-const siteUrl = process.env.CF_PAGES_URL ?? "https://shinkan-web.zdk.tsukuba.ac.jp";
+// const siteUrl = process.env.CF_PAGES_URL ?? "https://shinkan-web.zdk.tsukuba.ac.jp";
+const siteUrl = "https://shinkan-web.zdk.tsukuba.ac.jp";
 const count: Record<string, number> = {};
 try {
   for (const category of CATEGORY_LIST) {
