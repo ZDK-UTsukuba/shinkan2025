@@ -1,4 +1,5 @@
 ---
+import type { InferEntrySchema } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
@@ -8,7 +9,7 @@ const rowsCount = (endTime - startTime) * 6;
 
 const timetableData = await getCollection("timetable");
 
-const stage = timetableData.reduce((acc, item) => {
+const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"timetable"> }, item) => {
   acc[item.id] = item.data;
   return acc;
 }, {});
