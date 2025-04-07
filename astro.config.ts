@@ -56,6 +56,9 @@ export default defineConfig({
   },
   adapter: cloudflare(),
   vite: {
+    ssr: {
+      external: [],
+    },
     plugins: [arraybuffer()],
     define: {
       "process.env.STRAPI_URL": JSON.stringify(process.env.STRAPI_URL),
