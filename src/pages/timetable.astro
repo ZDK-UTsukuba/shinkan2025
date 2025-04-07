@@ -54,7 +54,16 @@ console.log(stage["ishihiro"][0].startsAt);
             const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
             return (
               <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>
-                {program.title}
+                <span class="title">{program.title}</span>
+                <span class="time">
+                  <time datetime={program.startsAt}>
+                    {sh}:{String(sm).padStart(2, "0")}
+                  </time>
+                  -
+                  <time datetime={program.endsAt}>
+                    {eh}:{String(em).padStart(2, "0")}
+                  </time>
+                </span>
               </div>
             );
           })
@@ -72,7 +81,16 @@ console.log(stage["ishihiro"][0].startsAt);
             const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
             return (
               <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
-                {program.title}
+                <span class="title">{program.title}</span>
+                <span class="time">
+                  <time datetime={program.startsAt}>
+                    {sh}:{String(sm).padStart(2, "0")}
+                  </time>
+                  -
+                  <time datetime={program.endsAt}>
+                    {eh}:{String(em).padStart(2, "0")}
+                  </time>
+                </span>
               </div>
             );
           })
@@ -85,7 +103,7 @@ console.log(stage["ishihiro"][0].startsAt);
 <style define:vars={{ rowsCount: rowsCount }}>
   .timetable {
     display: grid;
-    grid-template-rows: auto repeat(var(--rowsCount), 20px);
+    grid-template-rows: auto repeat(var(--rowsCount), 23px);
     grid-template-columns: auto 1fr 1fr;
     justify-items: center;
     gap: 2px 1rem;
@@ -121,16 +139,25 @@ console.log(stage["ishihiro"][0].startsAt);
     padding-block: 1rem;
   }
   .program {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
     color: #fff;
-    width: 90%;
+    width: calc(100% - 30px);
+    font-size: 0.85em;
+    line-height: 1;
     border: 1px solid var(--accent);
     background: var(--accent-bright);
-    padding: 5px;
+    padding: 4px;
     border-radius: 5px;
     z-index: 10;
     transition: background 0.3s ease;
   }
   .program:hover {
     background: var(--accent);
+  }
+  .program .time {
+    font-size: 0.7em;
+    opacity: 0.6;
   }
 </style>
