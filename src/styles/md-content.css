@@ -1066,3 +1066,75 @@
 .md-content .markdown-alert.markdown-alert-caution .markdown-alert-title {
   color: #d1242f;
 }
+
+/* 埋め込みコンテンツのスタイル */
+.md-content .embed-container {
+  position: relative;
+  margin: 1.5rem auto !important;
+  width: 100%;
+  max-width: 800px !important;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+/* YouTubeの埋め込み */
+.md-content .youtube-embed {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9のアスペクト比 */
+  height: 0;
+}
+
+.md-content .youtube-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Twitter(X)の埋め込み */
+.md-content .twitter-embed {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Instagramの埋め込み */
+.md-content .instagram-embed {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background-color: #ffffff;
+  display: flex !important;
+  justify-content: center !important;
+  max-width: 540px !important;
+  width: 100% !important;
+}
+.md-content .instagram-embed blockquote {
+  margin: 0 auto !important;
+  border: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+/* 埋め込みiframeの中央揃え - 全ての埋め込みに適用 */
+.md-content iframe,
+.md-content blockquote.instagram-media {
+  margin: 0 auto !important;
+  display: block !important;
+  max-width: 540px !important;
+  width: 100% !important;
+}
+
+/* Instagramの埋め込みスタイルをさらに強化 */
+.instagram-media {
+  margin: 0 auto !important;
+  min-width: auto !important;
+}

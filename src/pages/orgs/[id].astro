@@ -6,6 +6,7 @@ import Heart from "../../components/Heart.astro";
 import fetchApi from "../../lib/strapi";
 import { marked } from "marked";
 import { enumerateContactInfomations } from "../../utils/organization";
+import { processEmbeds } from "../../utils/embedProcessor";
 import type { Organization } from "../../types";
 
 import "@splidejs/splide/css";
@@ -25,7 +26,11 @@ export async function getStaticPaths() {
 
 type Props = Organization;
 const org = Astro.props;
-const description = marked.parse(org.attributes.description);
+
+// マークダウンをHTMLに変換
+let htmlContent = marked.parse(org.attributes.description);
+// YouTube、X、Instagramの埋め込み処理
+const description = processEmbeds(htmlContent);
 
 const contactInfo = enumerateContactInfomations(org);
 
