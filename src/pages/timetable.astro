@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 
 const startTime = 9;
 const endTime = 18;
+const rowsCount = (endTime - startTime) * 6;
 ---
 
 <Layout pageName="タイムテーブル">
@@ -10,14 +11,17 @@ const endTime = 18;
     <div class="timetable">
       <div class="contents">
         {Array.from({ length: endTime - startTime + 1 }, (_, i) => (
-          <div class="hour-label" style={{ gridArea: `${i + 2}/1` }}>
+          <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
             <span class="hour">{startTime + i}</span><span class="minutes">:00</span>
           </div>
         ))}
       </div>
       <div class="contents">
-        {Array.from({ length: endTime - startTime + 1 }, (_, i) => (
-          <div class="hour-line" style={{ gridArea: `${2 + i}/2/${2 + i}/4` }}></div>
+        {Array.from({ length: rowsCount + 1 }, (_, i) => (
+          i % 6 == 0 ?
+            (<div class="hour-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }}></div>)
+            :
+            (<div class="minute-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }}></div>)
         ))}
       </div>
       <div class="stage-name" style={{ gridArea: "1/2" }}>
@@ -30,10 +34,10 @@ const endTime = 18;
   </div>
 </Layout>
 
-<style define:vars={{ rowsCount: endTime - startTime }}>
+<style define:vars={{ rowsCount: rowsCount }}>
   .timetable {
     display: grid;
-    grid-template-rows: 100px repeat(var(--rowsCount), 60px);
+    grid-template-rows: 100px repeat(var(--rowsCount), 15px);
     grid-template-columns: auto 1fr 1fr;
     justify-items: center;
     gap: 0 1rem;
@@ -57,6 +61,12 @@ const endTime = 18;
     width: 100%;
     height: 2px;
     opacity: 0.5;
+  }
+  .minute-line {
+    background: var(--accent);
+    width: calc(100% - 15px);
+    height: 1px;
+    opacity: 0.25;
   }
   .stage-name {
     font-size: 1.25rem;
