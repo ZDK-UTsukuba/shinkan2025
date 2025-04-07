@@ -20,47 +20,63 @@ console.log(stage["ishihiro"][0].startsAt);
   <div class="container">
     <div class="timetable">
       <div class="contents">
-        {Array.from({ length: endTime - startTime + 1 }, (_, i) => (
-          <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
-            <span class="hour">{startTime + i}</span><span class="minutes">:00</span>
-          </div>
-        ))}
+        {
+          Array.from({ length: endTime - startTime + 1 }, (_, i) => (
+            <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
+              <>
+                <span class="hour">{startTime + i}</span>
+                <span class="minutes">:00</span>
+              </>
+            </div>
+          ))
+        }
       </div>
       <div class="contents">
-        {Array.from({ length: rowsCount + 1 }, (_, i) => (
-          i % 6 == 0 ?
-            (<div class="hour-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }}></div>)
-            :
-            (<div class="minute-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }}></div>)
-        ))}
+        {
+          Array.from({ length: rowsCount + 1 }, (_, i) =>
+            i % 6 == 0 ? (
+              <div class="hour-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }} />
+            ) : (
+              <div class="minute-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }} />
+            )
+          )
+        }
       </div>
       <div class="contents">
         <div class="stage-name" style={{ gridArea: "1/2" }}>
           <span>石の広場</span><span>ステージ</span>
         </div>
-        {stage["ishihiro"].map(program => {
-          const [sh, sm] = program.startsAt.split(":").map(Number);
-          const [eh, em] = program.endsAt.split(":").map(Number);
-          const startsAt = (sh - startTime) * 6 + Math.round(sm / 10); ;
-          const endsAt = (eh - startTime) * 6 + Math.round(em / 10); ;
-          return (
-            <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>{program.title}</div>
-          )
-        })}
+        {
+          stage["ishihiro"].map((program) => {
+            const [sh, sm] = program.startsAt.split(":").map(Number);
+            const [eh, em] = program.endsAt.split(":").map(Number);
+            const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
+            const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
+            return (
+              <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>
+                {program.title}
+              </div>
+            );
+          })
+        }
       </div>
       <div class="contents">
         <div class="stage-name" style={{ gridArea: "1/3" }}>
           <span>1G棟前</span><span>ステージ</span>
         </div>
-        {stage["1a"].map(program => {
-          const [sh, sm] = program.startsAt.split(":").map(Number);
-          const [eh, em] = program.endsAt.split(":").map(Number);
-          const startsAt = (sh - startTime) * 6 + Math.round(sm / 10); ;
-          const endsAt = (eh - startTime) * 6 + Math.round(em / 10); ;
-          return (
-            <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>{program.title}</div>
-          )
-        })}
+        {
+          stage["1a"].map((program) => {
+            const [sh, sm] = program.startsAt.split(":").map(Number);
+            const [eh, em] = program.endsAt.split(":").map(Number);
+            const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
+            const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
+            return (
+              <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
+                {program.title}
+              </div>
+            );
+          })
+        }
       </div>
     </div>
   </div>
