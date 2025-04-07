@@ -1,9 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
 
 const startTime = 9;
 const endTime = 18;
 const rowsCount = (endTime - startTime) * 6;
+
+const timetableData = await getCollection("timetable");
+
+const stage = timetableData.reduce((acc, item) => {
+  acc[item.id] = item.data;
+  return acc;
+}, {});
+
+console.log(stage["ishihiro"][0].startsAt);
 ---
 
 <Layout pageName="タイムテーブル">
@@ -24,11 +34,33 @@ const rowsCount = (endTime - startTime) * 6;
             (<div class="minute-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }}></div>)
         ))}
       </div>
-      <div class="stage-name" style={{ gridArea: "1/2" }}>
-        <span>石の広場</span><span>ステージ</span>
+      <div class="contents">
+        <div class="stage-name" style={{ gridArea: "1/2" }}>
+          <span>石の広場</span><span>ステージ</span>
+        </div>
+        {stage["ishihiro"].map(program => {
+          const [sh, sm] = program.startsAt.split(":").map(Number);
+          const [eh, em] = program.endsAt.split(":").map(Number);
+          const startsAt = (sh - startTime) * 6 + Math.round(sm / 10); ;
+          const endsAt = (eh - startTime) * 6 + Math.round(em / 10); ;
+          return (
+            <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>{program.title}</div>
+          )
+        })}
       </div>
-      <div class="stage-name" style={{ gridArea: "1/3" }}>
-        <span>1G棟前</span><span>ステージ</span>
+      <div class="contents">
+        <div class="stage-name" style={{ gridArea: "1/3" }}>
+          <span>1G棟前</span><span>ステージ</span>
+        </div>
+        {stage["1a"].map(program => {
+          const [sh, sm] = program.startsAt.split(":").map(Number);
+          const [eh, em] = program.endsAt.split(":").map(Number);
+          const startsAt = (sh - startTime) * 6 + Math.round(sm / 10); ;
+          const endsAt = (eh - startTime) * 6 + Math.round(em / 10); ;
+          return (
+            <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>{program.title}</div>
+          )
+        })}
       </div>
     </div>
   </div>
@@ -70,5 +102,10 @@ const rowsCount = (endTime - startTime) * 6;
   }
   .stage-name {
     font-size: 1.25rem;
+  }
+  .program {
+    width: 90%;
+    background: red;
+    z-index: 10;
   }
 </style>

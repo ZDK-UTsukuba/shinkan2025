@@ -1,0 +1,74 @@
+[
+  {
+    "title": "ときめき太鼓塾",
+    "id": 62,
+    "startsAt": "09:00:00",
+    "endsAt": "09:20:00"
+  },
+  {
+    "title": "アイドル研究会",
+    "id": 134,
+    "startsAt": "09:20:00",
+    "endsAt": "09:40:00"
+  },
+  {
+    "title": "筑波大学応援部 WINS",
+    "id": null,
+    "startsAt": "09:40:00",
+    "endsAt": "10:00:00"
+  },
+  {
+    "title": "体育会空手部",
+    "id": null,
+    "startsAt": "10:00:00",
+    "endsAt": "10:20:00"
+  },
+  {
+    "title": "筑波大学吹奏楽団",
+    "id": null,
+    "startsAt": "10:20:00",
+    "endsAt": "10:40:00"
+  },
+  {
+    "title": "軽音合同ライブ",
+    "id": null,
+    "startsAt": "10:40:00",
+    "endsAt": "15:40:00"
+  },
+  {
+    "title": "NeopolisBIGBAND",
+    "id": null,
+    "startsAt": "15:40:00",
+    "endsAt": "16:00:00"
+  },
+  {
+    "title": "アカペラサークル Doo-Wop",
+    "id": null,
+    "startsAt": "16:00:00",
+    "endsAt": "16:20:00"
+  },
+  {
+    "title": "体操部",
+    "id": null,
+    "startsAt": "16:20:00",
+    "endsAt": "16:40:00"
+  },
+  {
+    "title": "競技ダンスサークル舞研",
+    "id": null,
+    "startsAt": "16:40:00",
+    "endsAt": "17:00:00"
+  },
+  {
+    "title": "筑波大学管弦楽団",
+    "id": null,
+    "startsAt": "17:00:00",
+    "endsAt": "17:20:00"
+  },
+  {
+    "title": "斬桐舞",
+    "id": null,
+    "startsAt": "17:20:00",
+    "endsAt": "17:40:00"
+  }
+]
