@@ -24,8 +24,9 @@ console.log(stage["ishihiro"][0].startsAt);
         {
           Array.from({ length: endTime - startTime + 1 }, (_, i) => (
             <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
-              <span class="hour">{startTime + i}</span>
-              <span class="minutes">:00</span>
+              <span>
+                <span class="hour">{startTime + i}</span>:00
+              </span>
             </div>
           ))
         }
@@ -96,12 +97,12 @@ console.log(stage["ishihiro"][0].startsAt);
   }
   .hour-label {
     color: var(--accent);
-    font-size: 1rem;
+    font-size: 0.8rem;
     height: 1rem;
     transform: translateY(-0.7rem);
   }
-  .minutes {
-    font-size: 0.8em;
+  .hour {
+    font-size: 1.2em;
   }
   .hour-line {
     background: var(--accent);
