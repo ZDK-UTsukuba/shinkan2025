@@ -24,10 +24,8 @@ console.log(stage["ishihiro"][0].startsAt);
         {
           Array.from({ length: endTime - startTime + 1 }, (_, i) => (
             <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
-              <>
-                <span class="hour">{startTime + i}</span>
-                <span class="minutes">:00</span>
-              </>
+              <span class="hour">{startTime + i}</span>
+              <span class="minutes">:00</span>
             </div>
           ))
         }
@@ -86,10 +84,10 @@ console.log(stage["ishihiro"][0].startsAt);
 <style define:vars={{ rowsCount: rowsCount }}>
   .timetable {
     display: grid;
-    grid-template-rows: 100px repeat(var(--rowsCount), 15px);
+    grid-template-rows: auto repeat(var(--rowsCount), 20px);
     grid-template-columns: auto 1fr 1fr;
     justify-items: center;
-    gap: 0 1rem;
+    gap: 2px 1rem;
     width: 100%;
     position: relative;
   }
@@ -119,10 +117,19 @@ console.log(stage["ishihiro"][0].startsAt);
   }
   .stage-name {
     font-size: 1.25rem;
+    padding-block: 1rem;
   }
   .program {
+    color: #fff;
     width: 90%;
-    background: red;
+    border: 1px solid var(--accent);
+    background: var(--accent-bright);
+    padding: 5px;
+    border-radius: 5px;
     z-index: 10;
+    transition: background 0.3s ease;
+  }
+  .program:hover {
+    background: var(--accent);
   }
 </style>
