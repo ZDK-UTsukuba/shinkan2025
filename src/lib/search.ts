@@ -1,4 +1,5 @@
-import type { Organization, OrganizationCategory } from "../types";
+import * as Sentry from "@sentry/astro";
+import type { Organization, OrganizationCategory, MeiliSearchResponse, OrganizationSearchResult } from "../types";
 import { CATEGORY_LIST } from "../consts";
 
 export default async function search<T = Organization[]>(
@@ -81,34 +82,44 @@ export default async function search<T = Organization[]>(
       console.error("[DEBUG] API request failed with status:", result.status);
       const errorText = await result.text();
       console.error("[DEBUG] Error response:", errorText);
-      throw new Error(`API request failed with status ${result.status}: ${errorText}`);
+      const error = new Error(`API request failed with status ${result.status}: ${errorText}`);
+      Sentry.captureException(error); // Sentryにエラーを送信
+      throw error;
     }
 
-    const json = await result.json();
-    console.log("[DEBUG] Response JSON keys:", Object.keys(json));
-    console.log("[DEBUG] json.hits exists:", json.hits !== undefined);
-    console.log("[DEBUG] json.hits is array:", Array.isArray(json.hits));
-    console.log("[DEBUG] json.hits length:", Array.isArray(json.hits) ? json.hits.length : "N/A");
+    // MeiliSearchResponse<OrganizationSearchResult> 型を適用
+    const json = (await result.json()) as MeiliSearchResponse<OrganizationSearchResult>;
 
-    if (!json || json.hits === undefined) {
+    // json が null または hits プロパティが存在しないか確認
+    if (!json || !json.hits) {
       console.error("[DEBUG] Invalid API response:", JSON.stringify(json).substring(0, 200) + "...");
-      throw new Error("Invalid API response: hits property missing");
+      const error = new Error("Invalid API response: hits property missing or invalid");
+      Sentry.captureException(error); // Sentryにエラーを送信
+      throw error;
     }
 
-    const hits = Array.isArray(json.hits) ? json.hits : [];
+    const hits = json.hits;
     console.log("[DEBUG] Number of hits before filtering:", hits.length);
 
     // スコアによるフィルタリング
-    const filtered_hits = hits.filter((hit: any) => {
-      const hasRankingScore = hit && typeof hit._rankingScore === "number";
-      const isScoreHigh = hasRankingScore && hit._rankingScore > 0.65;
+    const filtered_hits: OrganizationSearchResult[] = hits.filter((hit: OrganizationSearchResult) => {
+      // _rankingScore が存在し、かつ number 型であることを確認
+      if (typeof hit._rankingScore !== "number") {
+        console.log(
+          "[DEBUG] Hit missing or invalid ranking score:",
+          hit ? JSON.stringify(hit).substring(0, 100) : "null"
+        );
+        return false; // スコアがない場合は除外
+      }
 
-      if (!hasRankingScore) {
-        console.log("[DEBUG] Hit missing ranking score:", hit ? JSON.stringify(hit).substring(0, 100) : "null");
-      } else if (!isScoreHigh) {
+      // ここから下では hit._rankingScore は number 型であることが保証される
+      const score = hit._rankingScore;
+      const isScoreHigh = score > 0.65;
+
+      if (!isScoreHigh) {
         console.log("[DEBUG] Hit with low score:", {
           id: hit.id,
-          score: hit._rankingScore,
+          score: score, // score は number 型
         });
       }
 
@@ -119,11 +130,16 @@ export default async function search<T = Organization[]>(
 
     // 結果の返却
     if (filtered_hits.length > 0) {
-      return filtered_hits as T;
+      // T は Organization[] だが、ここでは OrganizationSearchResult[] を返す
+      // 必要に応じて呼び出し元で変換する
+      return filtered_hits as unknown as T;
     }
-    return hits as T;
+    // T は Organization[] だが、ここでは OrganizationSearchResult[] を返す
+    // 必要に応じて呼び出し元で変換する
+    return hits as unknown as T;
   } catch (error) {
     console.error("[DEBUG] Error in search function:", error);
+    Sentry.captureException(error); // Sentryにエラーを送信
     throw error;
   }
 }

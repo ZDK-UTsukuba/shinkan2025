@@ -104,4 +104,13 @@ export interface OrganizationSearchResult {
   thumbnail: ImageSearchResult;
   images: ImageSearchResult[];
   tags: Tag[];
+  _rankingScore?: number;
+}
+export interface MeiliSearchResponse<T> {
+  hits: T[];
+  query: string;
+  processingTimeMs: number;
+  limit: number;
+  offset: number;
+  estimatedTotalHits: number;
 }

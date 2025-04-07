@@ -26,7 +26,7 @@ export default async function fetchApi<T>({ endpoint, query, wrappedByKey, wrapp
     });
   }
   const res = await fetch(url.toString());
-  let data = await res.json();
+  let data: any = await res.json(); // any 型を指定して型エラーを回避
 
   if (wrappedByKey) {
     data = data[wrappedByKey];
