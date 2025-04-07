@@ -30,7 +30,7 @@ const org = Astro.props;
 // マークダウンをHTMLに変換
 let htmlContent = marked.parse(org.attributes.description);
 // YouTube、X、Instagramの埋め込み処理
-const description = processEmbeds(htmlContent);
+const description = processEmbeds(htmlContent as string);
 
 const contactInfo = enumerateContactInfomations(org);
 
