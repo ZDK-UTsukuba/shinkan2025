@@ -1,0 +1,5 @@
+# wrangler.toml for Cloudflare Pages Functions
+# See: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+# This flag is required for the Sentry Cloudflare SDK
+compatibility_flags = ["nodejs_compat"]

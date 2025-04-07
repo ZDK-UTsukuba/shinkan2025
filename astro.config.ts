@@ -6,7 +6,6 @@ import search from "./src/lib/search";
 import { CATEGORY_LIST } from "./src/consts";
 import * as dotenv from "dotenv";
 import sitemap from "@astrojs/sitemap";
-import sentry from "@sentry/astro";
 dotenv.config();
 // const siteUrl = process.env.CF_PAGES_URL ?? "https://shinkan-web.zdk.tsukuba.ac.jp";
 const siteUrl = "https://shinkan-web.zdk.tsukuba.ac.jp";
@@ -51,22 +50,15 @@ export default defineConfig({
       },
     }),
     sitemap(),
-    sentry({
-      dsn: process.env.SENTRY_DSN,
-      tracesSampleRate: 0.1,
-      replaysSessionSampleRate: 0.01,
-      replaysOnErrorSampleRate: 1,
-      sourceMapsUploadOptions: {
-        project: "shinkan2025-frontend",
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      },
-    }),
   ],
   image: {
     service: passthroughImageService(),
   },
   adapter: cloudflare(),
   vite: {
+    ssr: {
+      external: [],
+    },
     plugins: [arraybuffer()],
     define: {
       "process.env.STRAPI_URL": JSON.stringify(process.env.STRAPI_URL),
