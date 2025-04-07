@@ -1085,6 +1085,9 @@
   position: relative;
   padding-bottom: 56.25%; /* 16:9のアスペクト比 */
   height: 0;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
 }
 
 .md-content .youtube-embed iframe {
@@ -1094,6 +1097,7 @@
   width: 100%;
   height: 100%;
   border: none;
+  max-width: 100% !important; /* YouTubeのiframeは親コンテナいっぱいに表示 */
 }
 
 /* Twitter(X)の埋め込み */
@@ -1131,6 +1135,11 @@
   display: block !important;
   max-width: 540px !important;
   width: 100% !important;
+}
+
+/* YouTubeのiframeは特別扱い - YouTubeクラスのセレクタを優先させる */
+.md-content .youtube-embed iframe {
+  max-width: none !important;
 }
 
 /* Instagramの埋め込みスタイルをさらに強化 */
