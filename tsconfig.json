@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["vite-plugin-arraybuffer/types"],
+    "types": [
+      "vite-plugin-arraybuffer/types"
+    ],
+    "strictNullChecks": true,
   },
   "extends": "astro/tsconfigs/strict",
 }

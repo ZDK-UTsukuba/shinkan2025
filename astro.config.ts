@@ -31,7 +31,7 @@ try {
 // https://astro.build/config
 export default defineConfig({
   site: siteUrl,
-  output: "hybrid",
+  output: "static",
   integrations: [
     icon({
       include: {
