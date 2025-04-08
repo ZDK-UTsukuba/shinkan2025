@@ -31,7 +31,7 @@ console.log(stage["ishihiro"][0].startsAt);
           ))
         }
       </div>
-      <div class="contents">
+      <div class="contents" id="lines">
         {
           Array.from({ length: rowsCount + 1 }, (_, i) =>
             i % 6 == 0 ? (
@@ -96,19 +96,20 @@ console.log(stage["ishihiro"][0].startsAt);
           })
         }
       </div>
+      <div id="current-time"></div>
     </div>
   </div>
 </Layout>
 
 <style define:vars={{ rowsCount: rowsCount }}>
   .timetable {
+    position: relative;
     display: grid;
     grid-template-rows: auto repeat(var(--rowsCount), 23px);
     grid-template-columns: auto 1fr 1fr;
     justify-items: center;
     gap: 2px 1rem;
     width: 100%;
-    position: relative;
   }
   .contents {
     display: contents;
@@ -160,6 +161,44 @@ console.log(stage["ishihiro"][0].startsAt);
     font-size: 0.7em;
     opacity: 0.6;
   }
+  #current-time {
+    width: 100%;
+    background: #598acf;
+    height: 4px;
+    z-index: -1;
+    opacity: 0.7;
+    grid-area: 2/2/2/4;
+    margin-top: 0px;
+    border-radius: 2px;
+    position: relative;
+    display: none;
+  }
+  #current-time::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    background: #598acf;
+    width: 18px;
+    height: 18px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: translateY(calc(-50% + 2px)) translateX(-50%);
+  }
+  /*
+  #current-time::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    background: #598acf;
+    width: 18px;
+    height: 18px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    transform: translateY(calc(-50% + 2px)) translateX(50%);
+  }
+  */
 
   @media screen and (max-width: 910px) {
     .program {
@@ -211,3 +250,26 @@ console.log(stage["ishihiro"][0].startsAt);
     }
   }
 </style>
+
+<script>
+  const timeBar = document.querySelector("#current-time") as HTMLDivElement;
+  const lines = document.querySelector("#lines") as HTMLDivElement;
+  const startTime = new Date("2025-04-11T09:00:00+09:00").getTime();
+  const endTime = new Date("2025-04-11T18:00:00+09:00").getTime();
+
+  function update() {
+    const currentTime = Date.now();
+    if (startTime < currentTime && currentTime < endTime) {
+      const progress = (currentTime - startTime) / (endTime - startTime);
+      const height =
+        lines.lastElementChild!.getBoundingClientRect().y - lines.firstElementChild!.getBoundingClientRect().y;
+      timeBar.style.top = `${progress * height}px`;
+      timeBar.style.display = "block";
+    } else {
+      timeBar.style.display = "none";
+    }
+    setTimeout(update, 60 * 1000);
+  }
+
+  update();
+</script>
