@@ -45,15 +45,17 @@
 
 - [Ryoga-exe](https://github.com/Ryoga-exe/) (フロントエンド主担当)
 - [🍏](https://x.com/ao_ringo_uni) (Webデザイン主担当)
-- [raspi0124](https://github.com/raspi0124) (バックエンド主担当・PM・各種事務)
+- [raspi0124](https://github.com/raspi0124) (バックエンド・PM・各種事務)
 - [Ekasilicon](https://www.eka.earth/) (各種事務)
 - [江波戸憧音](https://210o.net/) (非Web系デザイン)
 - [にすい](https://github.com/N1su1) (非Web系デザイン)
 
 ## 📜 ライセンス
 
-このプロジェクトは [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) の下でライセンスされています。
+このプロジェクトは `/src/assets/`以下や`/public/`以下に存在するファイルを除き、[GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) (or Later)の下でライセンスされています。
+
+`/src/assets/`以下や`/public/`以下に存在するファイルについては、各ファイルの著作権者の許可無しに再利用することはできません。
 
 ## 🤖 備考
 
-本READMEは全編生成AIによって生成されました。
+本READMEは生成AIによって生成されました。
