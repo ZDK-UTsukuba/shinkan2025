@@ -28,7 +28,7 @@ type Props = Organization;
 const org = Astro.props;
 
 // マークダウンをHTMLに変換
-let htmlContent = marked.parse(org.attributes.description);
+let htmlContent = marked.parse(org.attributes.description, { breaks: true });
 // YouTube、X、Instagramの埋め込み処理
 const description = processEmbeds(htmlContent as string);
 
