@@ -4,7 +4,7 @@ This project is licensed under the GNU Affero General Public License v3.0 (or la
 with the following exceptions:
 
 1. Files located under `/src/assets/` and `/public/` directories are NOT covered by
-   this license. These files may not be reused without explicit permission from
+   this license. These files may not be used without explicit permission from
    their respective copyright holders.
 
 For all other files in this project:

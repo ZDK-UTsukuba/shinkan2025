@@ -54,7 +54,7 @@
 
 このプロジェクトは `/src/assets/`以下や`/public/`以下に存在するファイルを除き、[GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) (or Later)の下でライセンスされています。
 
-`/src/assets/`以下や`/public/`以下に存在するファイルについては、各ファイルの著作権者の許可無しに再利用することはできません。
+`/src/assets/`以下や`/public/`以下に存在するファイルについては、各ファイルの著作権者の許可無しに利用することはできません。
 
 ## 🤖 備考
 
