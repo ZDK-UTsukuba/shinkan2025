@@ -1,16 +1,59 @@
-# 新歓Web 2025
+# shinkan2025
 
-筑波大学 新歓Web 2025
+## 概要
 
-## 🧞 Commands
+筑波大学の公認学生団体等をまとめたサイト、「[新歓Web 2025](https://shinkan-web.zdk.tsukuba.ac.jp/)」のフロントエンドです。
 
-All commands are run from the root of the project, from a terminal:
+## 🚀 立ち上げ方
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun run dev`             | Starts local dev server at `localhost:4321`      |
-| `bun run build`           | Build your production site to `./dist/`          |
-| `bun run preview`         | Preview your build locally, before deploying     |
-| `bun run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun run astro -- --help` | Get help using the Astro CLI                     |
+### 前提条件
+
+- [Bun](https://bun.sh/)
+
+### 手順
+
+1.  **リポジトリをクローン:**
+
+    ```bash
+    git clone https://github.com/ZDK-UTsukuba/shinkan2025
+    cd shinkan2025
+    ```
+
+2.  **依存関係をインストール:**
+
+    ```bash
+    bun install
+    ```
+
+3.  **開発サーバーの起動:**
+
+    ```bash
+    bun run dev
+    ```
+
+    開発サーバーが `http://localhost:4321` 等で起動します。
+
+4.  **ビルド:**
+
+    ```bash
+    bun run build
+    ```
+
+## ✨ 新歓Web 2025 への貢献者一覧
+
+このプロジェクトへの貢献に感謝します！
+
+- [Ryoga-exe](https://github.com/Ryoga-exe/) (フロントエンド主担当)
+- [🍏](https://x.com/ao_ringo_uni) (Webデザイン主担当)
+- [raspi0124](https://github.com/raspi0124) (バックエンド主担当・PM・各種事務)
+- [Ekasilicon](https://www.eka.earth/) (各種事務)
+- [江波戸憧音](https://210o.net/) (非Web系デザイン)
+- [にすい](https://github.com/N1su1) (非Web系デザイン)
+
+## 📜 ライセンス
+
+このプロジェクトは [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) の下でライセンスされています。
+
+## 🤖 備考
+
+本READMEは全編生成AIによって生成されました。
