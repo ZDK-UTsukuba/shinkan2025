@@ -52,7 +52,13 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
             const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
             return (
               <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>
-                <span class="title">{program.title}</span>
+                {program.id ? (
+                  <a href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`} target="_blank" rel="noopener" class="title-link">
+                    <span class="title">{program.title}</span>
+                  </a>
+                ) : (
+                  <span class="title">{program.title}</span>
+                )}
                 <span class="time">
                   <time datetime={program.startsAt}>
                     {sh}:{String(sm).padStart(2, "0")}
@@ -77,7 +83,26 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
             const [eh, em] = program.endsAt.split(":").map(Number);
             const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
             const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
-            return (
+            return program.id ? (
+              <a
+                href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="program"
+                style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}
+              >
+                <span class="title">{program.title}</span>
+                <span class="time">
+                  <time datetime={program.startsAt}>
+                    {sh}:{String(sm).padStart(2, "0")}
+                  </time>
+                  -
+                  <time datetime={program.endsAt}>
+                    {eh}:{String(em).padStart(2, "0")}
+                  </time>
+                </span>
+              </a>
+            ) : (
               <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
                 <span class="title">{program.title}</span>
                 <span class="time">
@@ -154,6 +179,10 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
   }
   .program:hover {
     background: var(--accent);
+  }
+  .title-link {
+    color: inherit; /* 親要素の色を継承 */
+    text-decoration: none; /* 下線を削除 */
   }
   .program .time {
     font-size: 0.7em;
