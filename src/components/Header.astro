@@ -15,14 +15,14 @@ const Links: HeaderLink[] = [
     icon: "ri:question-line",
   },
   {
-    href: "/privacy",
-    text: "プライバシーポリシー",
-    icon: "ri:shield-line",
-  },
-  {
     href: "/timetable",
     text: "タイムテーブル",
     icon: "ri:calendar-todo-line",
+  },
+  {
+    href: "/privacy",
+    text: "プライバシーポリシー",
+    icon: "ri:shield-line",
   },
   // {
   //   href: "/faq",
@@ -173,10 +173,15 @@ const Links: HeaderLink[] = [
       width: 100%;
       display: grid;
       grid-template-columns: auto auto;
-      flex-direction: row;
       writing-mode: initial;
       align-items: center;
       gap: 0.5rem 1rem;
+    }
+  }
+  @media screen and (max-height: 615px) and (min-width: 670px) {
+    nav {
+      display: flex;
+      flex-direction: row;
     }
   }
 </style>
