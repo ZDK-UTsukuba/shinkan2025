@@ -13,8 +13,6 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
   acc[item.id] = item.data;
   return acc;
 }, {});
-
-console.log(stage["ishihiro"][0].startsAt);
 ---
 
 <Layout pageName="タイムテーブル">
