@@ -1,0 +1,79 @@
+---
+import type { InferEntrySchema } from "astro:content";
+
+export type Props = {
+  program: InferEntrySchema<"timetable">[number];
+  startTime: number;
+  column: number;
+};
+
+const { program, startTime, column } = Astro.props;
+
+const [sh, sm] = program.startsAt.split(":").map(Number);
+const [eh, em] = program.endsAt.split(":").map(Number);
+const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
+const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
+
+const Element = program.id ? "a" : "div";
+const href = program.id ? `https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}` : null;
+---
+
+<Element class="program" style={{ gridArea: `${2 + startsAt}/${column}/${2 + endsAt}/${column}` }} href={href}>
+  <span class="title">{program.title}</span>
+  <span class="time">
+    <time datetime={program.startsAt}>
+      {sh}:{String(sm).padStart(2, "0")}
+    </time>
+    -
+    <time datetime={program.endsAt}>
+      {eh}:{String(em).padStart(2, "0")}
+    </time>
+  </span>
+</Element>
+
+<style>
+  .program {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    color: #fff;
+    width: calc(100% - 40px);
+    font-size: 0.85em;
+    line-height: 1;
+    border: 1px solid var(--accent);
+    background: var(--accent-bright);
+    padding: 4px;
+    border-radius: 5px;
+    z-index: 10;
+    transition: background 0.3s ease;
+  }
+  .program:hover {
+    background: var(--accent);
+  }
+  .program .time {
+    font-size: 0.7em;
+    opacity: 0.6;
+  }
+
+  @media screen and (max-width: 910px) {
+    .program {
+      width: calc(100% - 30px);
+    }
+  }
+  @media screen and (max-width: 845px) {
+    .program {
+      width: calc(100% - 15px);
+    }
+  }
+  @media screen and (max-width: 365px) {
+    .program {
+      font-size: 0.7em;
+      width: calc(100% - 5px);
+    }
+  }
+  @media screen and (max-width: 230px) {
+    .program {
+      font-size: 0.5em;
+    }
+  }
+</style>

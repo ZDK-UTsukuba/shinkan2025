@@ -1,6 +1,7 @@
 ---
 import type { InferEntrySchema } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import Program from "../components/TimetableProgram.astro";
 import { getCollection } from "astro:content";
 
 const startTime = 9;
@@ -44,83 +45,13 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
         <div class="stage-name" style={{ gridArea: "1/2" }}>
           <span>石の広場</span><span class="omittable">ステージ</span>
         </div>
-        {
-          stage["ishihiro"].map((program) => {
-            const [sh, sm] = program.startsAt.split(":").map(Number);
-            const [eh, em] = program.endsAt.split(":").map(Number);
-            const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
-            const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
-            return (
-              <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>
-                {program.id ? (
-                  <a
-                    href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`}
-                    target="_blank"
-                    rel="noopener"
-                    class="title-link">
-                    <span class="title">{program.title}</span>
-                  </a>
-                ) : (
-                  <span class="title">{program.title}</span>
-                )}
-                <span class="time">
-                  <time datetime={program.startsAt}>
-                    {sh}:{String(sm).padStart(2, "0")}
-                  </time>
-                  -
-                  <time datetime={program.endsAt}>
-                    {eh}:{String(em).padStart(2, "0")}
-                  </time>
-                </span>
-              </div>
-            );
-          })
-        }
+        {stage["ishihiro"].map((program) => <Program program={program} startTime={startTime} column={2} />)}
       </div>
       <div class="contents">
         <div class="stage-name" style={{ gridArea: "1/3" }}>
           <span>1G棟前</span><span class="omittable">ステージ</span>
         </div>
-        {
-          stage["1a"].map((program) => {
-            const [sh, sm] = program.startsAt.split(":").map(Number);
-            const [eh, em] = program.endsAt.split(":").map(Number);
-            const startsAt = (sh - startTime) * 6 + Math.round(sm / 10);
-            const endsAt = (eh - startTime) * 6 + Math.round(em / 10);
-            return program.id ? (
-              <a
-                href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="program"
-                style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
-                <span class="title">{program.title}</span>
-                <span class="time">
-                  <time datetime={program.startsAt}>
-                    {sh}:{String(sm).padStart(2, "0")}
-                  </time>
-                  -
-                  <time datetime={program.endsAt}>
-                    {eh}:{String(em).padStart(2, "0")}
-                  </time>
-                </span>
-              </a>
-            ) : (
-              <div class="program" style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
-                <span class="title">{program.title}</span>
-                <span class="time">
-                  <time datetime={program.startsAt}>
-                    {sh}:{String(sm).padStart(2, "0")}
-                  </time>
-                  -
-                  <time datetime={program.endsAt}>
-                    {eh}:{String(em).padStart(2, "0")}
-                  </time>
-                </span>
-              </div>
-            );
-          })
-        }
+        {stage["1a"].map((program) => <Program program={program} startTime={startTime} column={3} />)}
       </div>
       <div id="current-time"></div>
     </div>
@@ -182,10 +113,6 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
   }
   .program:hover {
     background: var(--accent);
-  }
-  .title-link {
-    color: inherit; /* 親要素の色を継承 */
-    text-decoration: none; /* 下線を削除 */
   }
   .program .time {
     font-size: 0.7em;
