@@ -53,7 +53,11 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
             return (
               <div class="program" style={{ gridArea: `${2 + startsAt}/2/${2 + endsAt}/2` }}>
                 {program.id ? (
-                  <a href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`} target="_blank" rel="noopener" class="title-link">
+                  <a
+                    href={`https://shinkan-web.zdk.tsukuba.ac.jp/orgs/${program.id}`}
+                    target="_blank"
+                    rel="noopener"
+                    class="title-link">
                     <span class="title">{program.title}</span>
                   </a>
                 ) : (
@@ -89,8 +93,7 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
                 target="_blank"
                 rel="noopener noreferrer"
                 class="program"
-                style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}
-              >
+                style={{ gridArea: `${2 + startsAt}/3/${2 + endsAt}/3` }}>
                 <span class="title">{program.title}</span>
                 <span class="time">
                   <time datetime={program.startsAt}>

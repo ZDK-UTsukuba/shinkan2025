@@ -30,8 +30,10 @@ const org = Astro.props;
 // マークダウンをHTMLに変換
 let htmlContent = marked.parse(org.attributes.description, { breaks: true }) as string;
 // すべてのリンクに target="_blank" と rel="noopener" を追加
-htmlContent = htmlContent.replace(/<a\s+(?![^>]*\btarget=)[^>]*href=["']([^"']*)["'][^>]*>/gi,
-  '<a href="$1" target="_blank" rel="noopener">');
+htmlContent = htmlContent.replace(
+  /<a\s+(?![^>]*\btarget=)[^>]*href=["']([^"']*)["'][^>]*>/gi,
+  '<a href="$1" target="_blank" rel="noopener">'
+);
 // YouTube、X、Instagramの埋め込み処理
 const description = processEmbeds(htmlContent);
 
