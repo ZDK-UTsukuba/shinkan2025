@@ -19,6 +19,11 @@ const Links: HeaderLink[] = [
     text: "プライバシーポリシー",
     icon: "ri:shield-line",
   },
+  {
+    href: "/timetable",
+    text: "タイムテーブル",
+    icon: "ri:calendar-todo-line",
+  },
   // {
   //   href: "/faq",
   //   text: "よくある質問",
@@ -99,9 +104,10 @@ const Links: HeaderLink[] = [
     align-items: center;
     gap: 1rem;
   }
-  @media screen and (max-height: 560px) {
+  @media screen and (max-height: 850px) {
     nav {
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: auto auto;
       justify-content: center;
     }
   }
@@ -109,6 +115,7 @@ const Links: HeaderLink[] = [
     display: contents;
   }
   li > a {
+    font-size: 1rem;
     display: inline-flex;
     align-items: center;
     gap: 0.25em;
@@ -125,7 +132,7 @@ const Links: HeaderLink[] = [
     height: 1em;
   }
   @media screen and (max-width: 670px),
-    screen and (max-height: 440px),
+    screen and (max-height: 615px),
     screen and (max-width: 1250px) and (max-height: 552px) {
     header {
       width: 100%;
@@ -164,11 +171,12 @@ const Links: HeaderLink[] = [
     }
     nav {
       width: 100%;
-      display: flex;
+      display: grid;
+      grid-template-columns: auto auto;
       flex-direction: row;
       writing-mode: initial;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem 1rem;
     }
   }
 </style>

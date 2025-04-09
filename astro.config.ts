@@ -44,6 +44,7 @@ export default defineConfig({
           "twitter-x-fill",
           "instagram-line",
           "shield-line",
+          "calendar-todo-line",
         ],
         jam: ["line"],
         "material-symbols": ["mail-outline"],
