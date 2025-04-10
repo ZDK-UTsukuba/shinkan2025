@@ -114,6 +114,14 @@ const tags = org.attributes.tags;
     }
     <section class="description md-content" set:html={description} />
     <span class="separator"></span>
+    {org.attributes.booth_location && org.attributes.booth_location !== "Coming Soon..." && (
+      <section class="booth_location">
+      <h2>新歓祭ブース情報</h2>
+      <p>{org.attributes.booth_location}</p>
+      </section>
+    )}
+
+    <span class="separator"></span>
     <section class="activity_date">
       <h2>活動時間</h2>
       <p>{org.attributes.activity_date}</p>
