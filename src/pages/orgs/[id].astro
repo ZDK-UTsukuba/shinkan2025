@@ -80,11 +80,15 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
     'U': "/maps/sut-1area-matsumi.png",
     'T': "/maps/sut-1area-matsumi.png",
   };
+  const locations = boothLocation.split(',').map(loc => loc.trim());
   
-  const firstLocation = boothLocation.split(',')[0].trim();
-  const firstLocationInitial = firstLocation.charAt(0);
-  
-  mapImagePath = locationMaps[firstLocationInitial] || null;
+  for (const location of locations) {
+    const firstChar = location.charAt(0);
+    if (locationMaps[firstChar]) {
+      mapImagePath = locationMaps[firstChar];
+      break;
+    }
+  }
 }
 ---
 
@@ -143,14 +147,14 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
       )
     }
     <section class="description md-content" set:html={description} />
-    <span class="separator"></span>
     {boothLocation && boothLocation !== "Coming Soon..." && (
+      <span class="separator"></span>
       <section class="booth_location">
-      <h2>新歓祭 出展ブース場所</h2>
+      <h2>新歓祭 出展ブース</h2>
       <p>{boothLocation}</p>
       {mapImagePath && (
         <>
-        <h3>屋外地図</h3>
+        <h2>屋外出展ブース エリア地図</h2>
         <div class="map-container">
           <Image src={mapImagePath} alt="会場地図" width={800} height={1100} loading="lazy" />
         </div>
@@ -247,6 +251,10 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
   section h2 {
     font-weight: bold;
     margin-block-end: 0.75rem;
+  }
+  section h3 {
+    font-weight: bold;
+    margin-block-end: 0.5rem;
   }
   .contacts dl {
     display: grid;
@@ -346,6 +354,8 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
   .map-container img {
     max-width: 100%;
     height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 </style>
 
