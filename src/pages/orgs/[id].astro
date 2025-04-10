@@ -56,6 +56,36 @@ const images = org.attributes.images.data
   : null;
 
 const tags = org.attributes.tags;
+const boothLocation = org.attributes.booth_location;
+let mapImagePath: string | null = null;
+
+if (boothLocation && boothLocation !== "Coming Soon...") {
+  const locationMaps: Record<string, string> = {
+    'A': "/maps/abd-23area.png",
+    'B': "/maps/abd-23area.png",
+    'D': "/maps/abd-23area.png",
+    'K': "/maps/kjhfge-23area-lib.png",
+    'J': "/maps/kjhfge-23area-lib.png",
+    'H': "/maps/kjhfge-23area-lib.png",
+    'F': "/maps/kjhfge-23area-lib.png",
+    'G': "/maps/kjhfge-23area-lib.png",
+    'E': "/maps/kjhfge-23area-lib.png",
+    'L': "/maps/lmrnpq-1area.png",
+    'M': "/maps/lmrnpq-1area.png",
+    'R': "/maps/lmrnpq-1area.png",
+    'N': "/maps/lmrnpq-1area.png",
+    'P': "/maps/lmrnpq-1area.png",
+    'Q': "/maps/lmrnpq-1area.png",
+    'S': "/maps/sut-1area-matsumi.png",
+    'U': "/maps/sut-1area-matsumi.png",
+    'T': "/maps/sut-1area-matsumi.png",
+  };
+  
+  const firstLocation = boothLocation.split(',')[0].trim();
+  const firstLocationInitial = firstLocation.charAt(0);
+  
+  mapImagePath = locationMaps[firstLocationInitial] || null;
+}
 ---
 
 <Layout
@@ -114,10 +144,18 @@ const tags = org.attributes.tags;
     }
     <section class="description md-content" set:html={description} />
     <span class="separator"></span>
-    {org.attributes.booth_location && org.attributes.booth_location !== "Coming Soon..." && (
+    {boothLocation && boothLocation !== "Coming Soon..." && (
       <section class="booth_location">
-      <h2>新歓祭ブース情報</h2>
-      <p>{org.attributes.booth_location}</p>
+      <h2>新歓祭 出展ブース場所</h2>
+      <p>{boothLocation}</p>
+      {mapImagePath && (
+        <>
+        <h3>屋外地図</h3>
+        <div class="map-container">
+          <Image src={mapImagePath} alt="会場地図" width={800} height={1100} loading="lazy" />
+        </div>
+        </>
+      )}
       </section>
     )}
 
@@ -300,6 +338,14 @@ const tags = org.attributes.tags;
   }
   .splide__slide.is-active {
     opacity: 1;
+  }
+  .map-container {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .map-container img {
+    max-width: 100%;
+    height: auto;
   }
 </style>
 
