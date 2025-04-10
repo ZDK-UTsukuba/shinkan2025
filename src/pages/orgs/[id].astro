@@ -58,6 +58,7 @@ const images = org.attributes.images.data
 const tags = org.attributes.tags;
 const boothLocation = org.attributes.booth_location;
 let mapImagePath: string | null = null;
+let formattedBoothLocations: string[] = [];
 
 if (boothLocation && boothLocation !== "Coming Soon...") {
   const locationMaps: Record<string, string> = {
@@ -80,7 +81,24 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
     'U': "/maps/sut-1area-matsumi.png",
     'T': "/maps/sut-1area-matsumi.png",
   };
+  
   const locations = boothLocation.split(',').map(loc => loc.trim());
+  
+  formattedBoothLocations = locations.map(loc => {
+    const firstChar = loc.charAt(0);
+    
+    // 屋外ブースの場合
+    if (locationMaps[firstChar]) {
+      return `${loc} (屋外ブース)`;
+    }
+    // 数字から始まる場合（例：1C210 → 1C棟）
+    else if (/^\d/.test(loc)) {
+      const prefix = loc.substring(0, 2);
+      return `${loc} (${prefix}棟)`;
+    }
+    
+    return loc;
+  });
   
   for (const location of locations) {
     const firstChar = location.charAt(0);
@@ -151,7 +169,11 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
       <span class="separator"></span>
       <section class="booth_location">
       <h2>新歓祭 出展ブース</h2>
-      <p>{boothLocation}</p>
+      <ul class="booth-list">
+        {formattedBoothLocations.map((location) => (
+          <li>{location}</li>
+        ))}
+      </ul>
       {mapImagePath && (
         <>
         <h2>屋外出展ブース エリア地図</h2>
