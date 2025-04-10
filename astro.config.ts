@@ -31,7 +31,7 @@ try {
 // https://astro.build/config
 export default defineConfig({
   site: siteUrl,
-  output: "hybrid",
+  output: "static",
   integrations: [
     icon({
       include: {
@@ -44,6 +44,7 @@ export default defineConfig({
           "twitter-x-fill",
           "instagram-line",
           "shield-line",
+          "calendar-todo-line",
         ],
         jam: ["line"],
         "material-symbols": ["mail-outline"],

@@ -1,0 +1,232 @@
+---
+import type { InferEntrySchema } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Program from "../components/TimetableProgram.astro";
+import { getCollection } from "astro:content";
+
+const startTime = 9;
+const endTime = 18;
+const rowsCount = (endTime - startTime) * 6;
+
+const timetableData = await getCollection("timetable");
+
+const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"timetable"> }, item) => {
+  acc[item.id] = item.data;
+  return acc;
+}, {});
+---
+
+<Layout pageName="タイムテーブル">
+  <div class="container">
+    <div class="timetable">
+      <div class="contents">
+        {
+          Array.from({ length: endTime - startTime + 1 }, (_, i) => (
+            <div class="hour-label" style={{ gridArea: `${i * 6 + 2}/1` }}>
+              <time datetime={`${startTime + i}:00`}>
+                <span class="hour">{startTime + i}</span>:00
+              </time>
+            </div>
+          ))
+        }
+      </div>
+      <div class="contents" id="lines">
+        {
+          Array.from({ length: rowsCount + 1 }, (_, i) =>
+            i % 6 == 0 ? (
+              <div class="hour-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }} />
+            ) : (
+              <div class="minute-line" style={{ gridArea: `${i + 2}/2/${i + 2}/4` }} />
+            )
+          )
+        }
+      </div>
+      <div class="contents">
+        <div class="stage-name" style={{ gridArea: "1/2" }}>
+          <span>石の広場</span><span class="omittable">ステージ</span>
+        </div>
+        {stage["ishihiro"].map((program) => <Program program={program} startTime={startTime} column={2} />)}
+      </div>
+      <div class="contents">
+        <div class="stage-name" style={{ gridArea: "1/3" }}>
+          <span>1G棟前</span><span class="omittable">ステージ</span>
+        </div>
+        {stage["1a"].map((program) => <Program program={program} startTime={startTime} column={3} />)}
+      </div>
+      <div id="current-time"></div>
+    </div>
+  </div>
+</Layout>
+
+<style define:vars={{ rowsCount: rowsCount }}>
+  .timetable {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto repeat(var(--rowsCount), 23px);
+    grid-template-columns: auto 1fr 1fr;
+    justify-items: center;
+    gap: 2px 1rem;
+    width: 100%;
+  }
+  .contents {
+    display: contents;
+  }
+  .hour-label {
+    color: var(--accent);
+    font-size: 0.8rem;
+    height: 1rem;
+    transform: translateY(-0.7rem);
+  }
+  .hour {
+    font-size: 1.2em;
+  }
+  .hour-line {
+    background: var(--accent);
+    width: 100%;
+    height: 2px;
+    opacity: 0.5;
+  }
+  .minute-line {
+    background: var(--accent);
+    width: calc(100% - 15px);
+    height: 1px;
+    opacity: 0.25;
+  }
+  .stage-name {
+    font-size: 1.2rem;
+    padding-block: 1rem;
+  }
+  .program {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    color: #fff;
+    width: calc(100% - 40px);
+    font-size: 0.85em;
+    line-height: 1;
+    border: 1px solid var(--accent);
+    background: var(--accent-bright);
+    padding: 4px;
+    border-radius: 5px;
+    z-index: 10;
+    transition: background 0.3s ease;
+  }
+  .program:hover {
+    background: var(--accent);
+  }
+  .program .time {
+    font-size: 0.7em;
+    opacity: 0.6;
+  }
+  #current-time {
+    width: 100%;
+    background: #598acf;
+    height: 4px;
+    z-index: -1;
+    opacity: 0.7;
+    grid-area: 2/2/2/4;
+    margin-top: 0px;
+    border-radius: 2px;
+    position: relative;
+    display: none;
+  }
+  #current-time::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    background: #598acf;
+    width: 18px;
+    height: 18px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: translateY(calc(-50% + 2px)) translateX(-50%);
+  }
+  /*
+  #current-time::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    background: #598acf;
+    width: 18px;
+    height: 18px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    transform: translateY(calc(-50% + 2px)) translateX(50%);
+  }
+  */
+
+  @media screen and (max-width: 910px) {
+    .program {
+      width: calc(100% - 30px);
+    }
+  }
+  @media screen and (max-width: 845px) {
+    .stage-name {
+      font-size: 1rem;
+    }
+    .timetable {
+      gap: 2px 0.2rem;
+    }
+    .minute-line {
+      width: calc(100% - 5px);
+    }
+    .program {
+      width: calc(100% - 15px);
+    }
+  }
+  @media screen and (max-width: 545px) {
+    .stage-name {
+      font-size: 0.8rem;
+    }
+    .hour-label {
+      font-size: 0.65rem;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @media screen and (max-width: 365px) {
+    .timetable {
+      grid-template-rows: auto repeat(var(--rowsCount), 30px);
+      gap: 2px 0.05rem;
+    }
+    .omittable {
+      display: none;
+    }
+    .hour-label {
+      font-size: 0.5rem;
+    }
+    .program {
+      font-size: 0.7em;
+      width: calc(100% - 5px);
+    }
+  }
+  @media screen and (max-width: 230px) {
+    .program {
+      font-size: 0.5em;
+    }
+  }
+</style>
+
+<script>
+  const timeBar = document.querySelector("#current-time") as HTMLDivElement;
+  const lines = document.querySelector("#lines") as HTMLDivElement;
+  const startTime = new Date("2025-04-11T09:00:00+09:00").getTime();
+  const endTime = new Date("2025-04-11T18:00:00+09:00").getTime();
+
+  function update() {
+    const currentTime = Date.now();
+    if (startTime < currentTime && currentTime < endTime) {
+      const progress = (currentTime - startTime) / (endTime - startTime);
+      const height =
+        lines.lastElementChild!.getBoundingClientRect().y - lines.firstElementChild!.getBoundingClientRect().y;
+      timeBar.style.top = `${progress * height}px`;
+      timeBar.style.display = "block";
+    } else {
+      timeBar.style.display = "none";
+    }
+    setTimeout(update, 60 * 1000);
+  }
+
+  update();
+</script>

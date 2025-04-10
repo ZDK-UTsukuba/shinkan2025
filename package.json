@@ -12,29 +12,29 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@astrojs/check": "^0.4.1",
-    "@astrojs/cloudflare": "^10.0.1",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/cloudflare": "^12.4.0",
     "@astrojs/sitemap": "^3.3.0",
     "@sentry/astro": "^9.11.0",
     "@sentry/cloudflare": "^9.11.0",
     "@splidejs/splide": "^4.1.4",
-    "astro": "^4.5.12",
+    "astro": "^5.6.1",
     "astro-google-fonts-optimizer": "^0.2.2",
-    "astro-icon": "^1.0.3",
-    "marked": "^12.0.1",
-    "typescript": "^5.3.3"
+    "astro-icon": "^1.1.5",
+    "marked": "^15.0.8",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@iconify-json/jam": "^1.1.8",
-    "@iconify-json/material-symbols": "^1.1.76",
-    "@iconify-json/mdi": "^1.1.64",
-    "@iconify-json/ri": "^1.1.19",
-    "prettier": "^3.2.4",
-    "prettier-plugin-astro": "^0.13.0",
-    "satori": "^0.10.13",
+    "@iconify-json/jam": "^1.2.3",
+    "@iconify-json/material-symbols": "^1.2.17",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/ri": "^1.2.5",
+    "dotenv": "^16.4.7",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "satori": "^0.12.2",
     "satori-html": "^0.3.2",
-    "sharp": "^0.33.3",
-    "vite-plugin-arraybuffer": "^0.0.6",
-    "dotenv": "^16.4.5"
+    "sharp": "^0.34.0",
+    "vite-plugin-arraybuffer": "^0.1.0"
   }
 }
