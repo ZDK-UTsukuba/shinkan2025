@@ -89,7 +89,7 @@ if (boothLocation && boothLocation !== "Coming Soon...") {
     
     // 屋外ブースの場合
     if (locationMaps[firstChar]) {
-      return `${loc} (屋外ブース) (雨天のため16:30以降順次撤収開始中です)`;
+      return `${loc} (屋外ブース) (屋外ブースについては雨天のため16:30以降順次撤収開始中です)`;
     }
     // 数字から始まる場合（例：1C210 → 1C棟）
     else if (/^\d/.test(loc)) {
