@@ -18,6 +18,11 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
 
 <Layout pageName="タイムテーブル">
   <div class="container">
+    <div class="notice">
+      <p>屋外ステージ企画につきましては雨天のため、16:30をもって中止しました。
+      ご理解ご協力のほどお願いいたします。</p>
+      <p>※教室企画は予定通り18:00まで実施予定です。</p>
+    </div>
     <div class="timetable">
       <div class="contents">
         {
@@ -59,6 +64,21 @@ const stage = timetableData.reduce((acc: { [key: string]: InferEntrySchema<"time
 </Layout>
 
 <style define:vars={{ rowsCount: rowsCount }}>
+  .notice {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    color: #856404;
+  }
+  
+  .notice p {
+    margin: 0.5rem 0;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
   .timetable {
     position: relative;
     display: grid;
