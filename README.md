@@ -39,16 +39,14 @@
     bun run build
     ```
 
-## ✨ 新歓Web 2025 への貢献者一覧
-
-このプロジェクトへの貢献に感謝します！
+## ✨ 新歓Web 2025 開発者等一覧
 
 - [Ryoga-exe](https://github.com/Ryoga-exe/) (フロントエンド主担当)
 - [🍏](https://x.com/ao_ringo_uni) (Webデザイン主担当)
 - [raspi0124](https://github.com/raspi0124) (バックエンド・PM・各種事務)
 - [Ekasilicon](https://www.eka.earth/) (各種事務)
-- [江波戸憧音](https://210o.net/) (非Web系デザイン)
-- [にすい](https://github.com/N1su1) (非Web系デザイン)
+- [江波戸憧音](https://210o.net/) (OGP画像・その他広報系デザイン)
+- [にすい](https://github.com/N1su1) (広報系デザイン)
 
 ## 📜 ライセンス
 
