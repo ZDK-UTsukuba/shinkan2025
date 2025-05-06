@@ -42,6 +42,7 @@
 ## ✨ 新歓Web 2025 開発者等一覧
 
 新歓Web 2025は[全学学類・専門学群・総合学域群代表者会議 情報処理推進特別委員会](https://www.stb.tsukuba.ac.jp/~zdk/ipc)の有志によって開発されています。
+
 開発への参加をご希望の方は、本README記載の連絡先、またはGitHubのIssue・Pull Request機能を通じてお気軽にご連絡ください。
 
 - [Ryoga-exe](https://github.com/Ryoga-exe/) (フロントエンド主担当)
@@ -62,7 +63,9 @@
 ご不明点やご質問等がございましたら、下記の連絡先までお気軽にお問い合わせください。
 
 全学学類・専門学群・総合学域群代表者会議 情報処理推進委員会
+
 📧 E-mail: ipc@zdk.tsukuba.ac.jp
+
 🌐 公式サイト: https://www.zdk.tsukuba.ac.jp/
 
 
