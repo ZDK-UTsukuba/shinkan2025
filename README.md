@@ -47,7 +47,7 @@
 
 - [Ryoga-exe](https://github.com/Ryoga-exe/) (フロントエンド主担当)
 - [🍏](https://x.com/ao_ringo_uni) (Webデザイン主担当)
-- [raspi0124](https://github.com/raspi0124) (バックエンド・PM・各種事務)
+- [raspi0124](https://github.com/raspi0124) (PM・バックエンド・各種事務)
 - [Ekasilicon](https://www.eka.earth/) (各種事務)
 - [江波戸憧音](https://210o.net/) (OGP画像・その他広報系デザイン)
 - [にすい](https://github.com/N1su1) (広報系デザイン)
